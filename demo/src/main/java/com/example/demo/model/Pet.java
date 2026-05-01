@@ -1,4 +1,4 @@
-package com.example.demo.pet;
+package com.example.demo.model;
 
 public class Pet {
     private Long id;
