@@ -5,6 +5,7 @@ import com.example.demo.dto.PetResponseDto;
 import com.example.demo.model.Pet;
 import com.example.demo.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
@@ -21,34 +22,38 @@ public class PetController {
     }
 
     @GetMapping
-    public List<PetResponseDto> getAllPets(){
-        return petService.getAllPets();
+    public ResponseEntity<List<PetResponseDto>> getAllPets(){
+
+        return ResponseEntity.ok( petService.getAllPets());
     }
 
     @GetMapping("/{id}")
-    public PetResponseDto getPetById(@PathVariable Long id) {
-        return petService.getPetById(id);
+    public ResponseEntity <PetResponseDto>getPetById(@PathVariable Long id) {
+
+        return ResponseEntity.ok(petService.getPetById(id));
     }
 
 
     @PostMapping
-    public PetResponseDto createPet(@RequestBody PetRequestDto dto) {
-        return petService.createPet(dto);
+    public ResponseEntity<PetResponseDto> createPet(@RequestBody PetRequestDto dto) {
+        PetResponseDto created = petService.createPet(dto);
+        return ResponseEntity.status(201).body(created);
     }
 
 
     @PutMapping("/{id}")
-    public PetResponseDto updatePet(
+    public ResponseEntity<PetResponseDto>  updatePet(
             @PathVariable Long id,
             @RequestBody PetRequestDto dto
     ) {
-        return petService.updatePet(id, dto);
+        return ResponseEntity.ok( petService.updatePet(id, dto));
     }
 
 
     @DeleteMapping("/{id}")
-    public void deletePet(@PathVariable Long id) {
+    public ResponseEntity<Void>  deletePet(@PathVariable Long id) {
         petService.deletePet(id);
+        return ResponseEntity.noContent().build();
     }
 
 
