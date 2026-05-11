@@ -35,16 +35,16 @@ public class PetService {
 
 
     public PetResponseDto createPet(PetRequestDto dto) {
-        if (dto.getName() == null || dto.getName().isBlank())
+        if (dto.name() == null || dto.name().isBlank())
             throw new BadRequestException("You did not complete the pet's name");
-        else if (dto.getOwner() == null || dto.getOwner().isBlank())
+        else if (dto.owner() == null || dto.owner().isBlank())
             throw new BadRequestException("You did not complete the pet's owner");
-        else if (dto.getRace() == null || dto.getRace().isBlank())
+        else if (dto.race() == null || dto.race().isBlank())
             throw new BadRequestException("You did not complete the pet's race");
-        else if (dto.getType() == null || dto.getType().isBlank())
+        else if (dto.type() == null || dto.type().isBlank())
             throw new BadRequestException("You did not complete the pet's type");
 
-        Integer age = dto.getRealAge();
+        Integer age = dto.realAge();
         if (age == null) {
             throw new BadRequestException("Pet age is required");
         }
@@ -53,11 +53,11 @@ public class PetService {
         }
 
             Pet pet = new Pet(
-                    dto.getName(),
-                    dto.getOwner(),
-                    dto.getType(),
-                    dto.getRace(),
-                    dto.getRealAge()
+                    dto.name(),
+                    dto.owner(),
+                    dto.type(),
+                    dto.race(),
+                    dto.realAge()
             );
 
             return toResponseDto(petRepository.save(pet));
@@ -68,11 +68,11 @@ public class PetService {
             Pet pet = petRepository.findById(id)
                     .orElseThrow(() -> new PetNotFoundException(id));
 
-            pet.setName(dto.getName());
-            pet.setOwner(dto.getOwner());
-            pet.setType(dto.getType());
-            pet.setRace(dto.getRace());
-            pet.setRealAge(dto.getRealAge());
+            pet.setName(dto.name());
+            pet.setOwner(dto.owner());
+            pet.setType(dto.type());
+            pet.setRace(dto.race());
+            pet.setRealAge(dto.realAge());
 
             return toResponseDto(petRepository.save(pet));
         }
@@ -87,13 +87,13 @@ public class PetService {
 
 
         private PetResponseDto toResponseDto (Pet pet){
-            PetResponseDto dto = new PetResponseDto();
-            dto.setId(pet.getId());
-            dto.setName(pet.getName());
-            dto.setOwner(pet.getOwner());
-            dto.setType(pet.getType());
-            dto.setRace(pet.getRace());
-            dto.setRealAge(pet.getRealAge());
-            return dto;
+            return new PetResponseDto(
+                    pet.getId(),
+                    pet.getName(),
+                    pet.getOwner(),
+                    pet.getType(),
+                    pet.getRace(),
+                    pet.getRealAge()
+            );
         }
     }
