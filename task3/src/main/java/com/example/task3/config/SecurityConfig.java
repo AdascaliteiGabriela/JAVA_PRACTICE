@@ -9,8 +9,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -19,12 +17,12 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> {})
+                .formLogin(form -> form
+                        .permitAll()
+                )
                 .httpBasic(httpBasic -> {});
-
         return http.build();
     }
-
 
 }
 

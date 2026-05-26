@@ -1,6 +1,7 @@
 package com.example.task3.controller;
 
-import com.example.task3.dto.RegisterRequest;
+import com.example.task3.dto.UserRequestDTO;
+import com.example.task3.dto.UserResponseDTO;
 import com.example.task3.model.Users;
 import com.example.task3.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -16,23 +17,22 @@ public class AuthController {
         this.userService = userService;
     }
 
+    //register user
     @PostMapping("/register")
-    public ResponseEntity<?> register(
-            @RequestBody RegisterRequest request){
+    public ResponseEntity<UserResponseDTO> register(@RequestBody UserRequestDTO request) {
 
-        try {
-            Users user = userService.register(
-                    request.getUsername(),
-                    request.getPassword()
-            );
+        Users user = userService.register(
+                request.username(),
+                request.password()
+        );
 
-            return ResponseEntity.ok(user);
-
-        } catch (RuntimeException e) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(e.getMessage());
-        }
-
+        return ResponseEntity.ok(
+                new UserResponseDTO(
+                        user.getId(),
+                        user.getUsername(),
+                        user.getRole()
+                )
+        );
     }
 }
+
