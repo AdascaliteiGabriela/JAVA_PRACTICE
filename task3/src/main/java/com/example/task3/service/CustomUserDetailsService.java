@@ -2,9 +2,8 @@ package com.example.task3.service;
 
 
 import com.example.task3.model.Users;
-import com.example.task3.model.Users;
 
-import com.example.task3.respository.UserRepository;
+import com.example.task3.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
