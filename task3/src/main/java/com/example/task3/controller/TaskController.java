@@ -5,7 +5,7 @@ import com.example.task3.dto.TaskRequestDTO;
 import com.example.task3.dto.TaskResponseDTO;
 import com.example.task3.service.TaskService;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import java.util.List;
 
 @RestController
@@ -32,4 +32,20 @@ public class TaskController {
     public List<TaskResponseDTO> getMyTasks() {
         return taskService.getMyTasks();
     }
+
+
+    // get all tasks(for admin)
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping
+    public List<TaskResponseDTO> getAllTasks() {
+        return taskService.getAllTasks();
+    }
+
+    // delete task (for admin)
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
+    public void deleteTask(@PathVariable Long id) {
+        taskService.deleteTask(id);
+    }
+
 }

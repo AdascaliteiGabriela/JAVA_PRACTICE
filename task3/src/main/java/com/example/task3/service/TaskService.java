@@ -73,4 +73,24 @@ public class TaskService {
                 ))
                 .toList();
     }
+
+
+    public List<TaskResponseDTO> getAllTasks() {
+
+        return taskRepository.findAll()
+                .stream()
+                .map(task -> new TaskResponseDTO(
+                        task.getId(),
+                        task.getTitle(),
+                        task.getDescription(),
+                        task.getCreatedAt()
+                ))
+                .toList();
+    }
+
+
+    public void deleteTask(Long id) {
+        taskRepository.deleteById(id);
+    }
+
 }

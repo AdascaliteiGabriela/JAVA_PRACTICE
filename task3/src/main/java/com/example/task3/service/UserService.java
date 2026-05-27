@@ -37,4 +37,20 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
+    public Users createUserWithRole(String username, String password, Role role) {
+
+        if (userRepository.findByUsername(username).isPresent()) {
+            throw new RuntimeException("Username already exists");
+        }
+
+        Users user = new Users();
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRole(role);
+
+        return userRepository.save(user);
+    }
+
+
 }
